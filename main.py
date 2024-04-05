@@ -38,9 +38,9 @@ escaped_username = quote_plus(username)
 escaped_password = quote_plus(password)
 
 # Construct the updated MongoDB connection string
-connection_string = f"mongodb+srv://{escaped_username}:{escaped_password}@{cluster_url}/{db_name}?retryWrites=true&w=majority&appName=Cluster0&ssl=true&ssl_cert_reqs=CERT_NONE"
+connection_string = f"mongodb+srv://{escaped_username}:{escaped_password}@{cluster_url}/{db_name}?retryWrites=true&w=majority&appName=Cluster0"
 def connect_to_mongodb():
-    client = MongoClient(connection_string)
+    client = MongoClient(connection_string,connect=False)
     db = client[db_name]
     return db
 
