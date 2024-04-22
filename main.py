@@ -5,11 +5,16 @@ from urllib.parse import quote_plus
 from pydantic import BaseModel, conlist
 from redis import Redis
 from functools import wraps
+import os
 from datetime import datetime, timedelta
 from typing import List, Optional
 
-# Redis client
-redis_client = Redis(host='localhost', port=6379, db=0)
+# Redis client initialization
+redis_url = "redis://red-coj91s2cn0vc73dqves0:6379"
+if redis_url:
+    redis_client = redis.Redis.from_url(redis_url)
+else:
+    redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # Rate limiter configuration
 MAX_REQUESTS_PER_DAY = 100  # Set the desired limit
