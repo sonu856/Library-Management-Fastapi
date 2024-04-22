@@ -10,14 +10,14 @@ from datetime import datetime, timedelta
 from typing import List, Optional
 
 # Redis client initialization
-redis_url = "redis://red-coj91s2cn0vc73dqves0:6379"
+redis_url = os.environ.get('REDIS_URL')
 if redis_url:
     redis_client = redis.Redis.from_url(redis_url)
 else:
     redis_client = redis.Redis(host='localhost', port=6379, db=0)
 
 # Rate limiter configuration
-MAX_REQUESTS_PER_DAY = 100  # Set the desired limit
+MAX_REQUESTS_PER_DAY = 10  # Set the desired limit
 
 # Rate limiter function
 def rate_limiter(user_id: str = Header(...)):
@@ -127,6 +127,6 @@ async def delete_student(id: str, current_requests=Depends(rate_limiter)):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Student not found")
 
-@app.get("/", dependencies=[Depends(rate_limiter)])
-async def read_root(current_requests=Depends(rate_limiter)):
+@app.get("/")
+async def read_root():
     return {"message": "Hello, Welcome to Library Management System!"}
