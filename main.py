@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from bson import ObjectId
 from urllib.parse import quote_plus
 from pydantic import BaseModel, conlist
-from redis import Redis
+import redis
 from functools import wraps
 import os
 from datetime import datetime, timedelta
